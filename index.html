@@ -9,15 +9,17 @@
 <link rel="apple-touch-icon" href="./icon-180.png">
 <!-- ホーム画面から開いたときに、ブラウザの検索窓を出さないための設定 -->
 <link rel="manifest" href="./manifest.webmanifest">
-<meta name="theme-color" content="#0b1220">
+<meta name="theme-color" content="#0a0a0a">
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
 <meta name="apple-mobile-web-app-title" content="検">
 <style>
 :root{
-  --bg:#0b1220; --card:#131c2e; --card2:#1a2437; --line:#2a3a52;
-  --text:#e6eefc; --dim:#8fa3c0; --cyan:#22d3ee;
+  /* 管理用ページなので、検索くん（濃紺＋水色）とはっきり違う色にする。
+     開いた瞬間に「いま何を触っているか」が分かるほうが、誤送信を防げる。 */
+  --bg:#0a0a0a; --card:#161616; --card2:#1f1f1f; --line:#3a3a3a;
+  --text:#f2f2f2; --dim:#9a9a9a; --cyan:#f87171;   /* 差し色は赤系 */
 }
 *{box-sizing:border-box}
 body{
@@ -43,7 +45,7 @@ textarea{min-height:120px;resize:vertical}
   background:var(--card2);border:2px solid var(--line);border-radius:10px;
   font-weight:700;cursor:pointer;user-select:none;
 }
-.app.on{border-color:var(--cyan);background:rgba(34,211,238,.12)}
+.app.on{border-color:#f87171;background:rgba(248,113,113,.14)}
 .app .mk{font-size:18px;width:20px;text-align:center}
 .allbtn{
   width:100%;padding:10px;margin-top:10px;background:var(--card2);
@@ -53,20 +55,20 @@ button.main{
   width:100%;padding:18px;font-size:17px;font-weight:800;color:#fff;
   border:none;border-radius:12px;margin-bottom:10px;cursor:pointer;
 }
-.check{background:linear-gradient(90deg,#0ea5e9,#8b5cf6)}
+.check{background:#3f3f46}
 .send{background:#dc2626}
 /* カギを消す操作は、めったに使わないうえ押すと送れなくなる。
    誤って触らないよう、小さな文字リンクにして下のほうへ置く。 */
 .danger-link{
   display:block;width:100%;margin-top:22px;padding:8px;
-  background:none;border:none;color:#5b6b83;
+  background:none;border:none;color:#6b6b6b;
   font-size:11px;text-decoration:underline;cursor:pointer;
 }
 button:disabled{opacity:.45}
 #log{
   white-space:pre-wrap;font-size:13px;line-height:1.8;
-  color:#cfe3ff;                      /* 灰色だと読みにくいので明るくする */
-  background:#0a0f1a;border:1px solid var(--line);border-radius:10px;
+  color:#e8e8e8;                      /* 灰色だと読みにくいので明るくする */
+  background:#000;border:1px solid var(--line);border-radius:10px;
   padding:14px;min-height:80px;
 }
 .warn{
@@ -78,17 +80,17 @@ button:disabled{opacity:.45}
 .quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .quick button{
   padding:9px 13px;font-size:13px;font-weight:700;
-  color:#a5e9f7;                      /* 暗すぎて読めなかったので明るい水色に */
-  background:#17293d;border:1px solid #2f4a68;border-radius:20px;cursor:pointer;
+  color:#fca5a5;                      /* 背景が黒なので、明るい赤系にする */
+  background:#2a1a1a;border:1px solid #5a3030;border-radius:20px;cursor:pointer;
 }
-.quick button:active{background:#22405e;color:#fff}
+.quick button:active{background:#3d2222;color:#fff}
 /* お知らせバナーの編集欄 */
 .news-item{
   display:flex;align-items:center;gap:10px;padding:10px;margin-bottom:8px;
   background:var(--card2);border:1px solid var(--line);border-radius:10px;
 }
-.news-item img{width:52px;height:52px;object-fit:cover;border-radius:6px;background:#0a0f1a;flex-shrink:0}
-.news-item .txt{flex:1;min-width:0;font-size:13px;color:#cfe3ff;word-break:break-all}
+.news-item img{width:52px;height:52px;object-fit:cover;border-radius:6px;background:#000;flex-shrink:0}
+.news-item .txt{flex:1;min-width:0;font-size:13px;color:#e8e8e8;word-break:break-all}
 .news-item .del{
   padding:8px 12px;background:#7f1d1d;color:#fff;border:none;border-radius:8px;
   font-size:13px;font-weight:700;flex-shrink:0;
@@ -97,11 +99,11 @@ button:disabled{opacity:.45}
   padding:14px;text-align:center;font-size:14px;color:var(--dim);
   background:var(--card2);border:1px dashed var(--line);border-radius:10px;
 }
-.banner{background:linear-gradient(90deg,#c026d3,#ec4899)}
+.banner{background:#7f1d4d}
 .clear{background:#475569}
 /* カードの中の見出し。何をする欄なのか一目で分かるようにする */
 .section-head{
-  font-size:16px;font-weight:800;color:#e6eefc;
+  font-size:16px;font-weight:800;color:#fca5a5;
   padding-bottom:10px;margin-bottom:14px;
   border-bottom:1px solid var(--line);
 }
