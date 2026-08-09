@@ -224,7 +224,9 @@ const APPS = [
   { code:'c',     name:'北大和Ｃ' },
   { code:'yobi',  name:'予備' }
 ];
-let picked = new Set(APPS.map(function(a){ return a.code; }));
+// 初期は何も選ばない。誤って全員に送ってしまうのを防ぐため、
+// 送り先は毎回その場で選んでもらう。
+let picked = new Set();
 
 function getToken(){
   try{ return localStorage.getItem(TOKEN_KEY) || ''; }catch(e){ return ''; }
