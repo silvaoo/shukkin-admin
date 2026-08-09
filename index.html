@@ -99,6 +99,12 @@ button:disabled{opacity:.45}
 }
 .banner{background:linear-gradient(90deg,#c026d3,#ec4899)}
 .clear{background:#475569}
+/* カードの中の見出し。何をする欄なのか一目で分かるようにする */
+.section-head{
+  font-size:16px;font-weight:800;color:#e6eefc;
+  padding-bottom:10px;margin-bottom:14px;
+  border-bottom:1px solid var(--line);
+}
 .hide{display:none}
 </style>
 </head>
@@ -160,6 +166,7 @@ button:disabled{opacity:.45}
   </div>
 
   <div class="card">
+    <div class="section-head">📣 一斉通知設定</div>
     <div class="row">
       <label>タイトル</label>
       <input type="text" id="title" placeholder="例: 営業所からの連絡" maxlength="60">
