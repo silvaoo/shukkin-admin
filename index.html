@@ -19,7 +19,7 @@
   /* 管理用ページなので、検索くん（濃紺＋水色）とはっきり違う色にする。
      開いた瞬間に「いま何を触っているか」が分かるほうが、誤送信を防げる。 */
   --bg:#0a0a0a; --card:#161616; --card2:#1f1f1f; --line:#3a3a3a;
-  --text:#f2f2f2; --dim:#9a9a9a; --cyan:#f87171;   /* 差し色は赤系 */
+  --text:#f2f2f2; --dim:#9a9a9a; --cyan:#22d3ee;   /* 見出しなどの文字は水色（黒地に映える） */
 }
 *{box-sizing:border-box}
 body{
@@ -45,7 +45,7 @@ textarea{min-height:120px;resize:vertical}
   background:var(--card2);border:2px solid var(--line);border-radius:10px;
   font-weight:700;cursor:pointer;user-select:none;
 }
-.app.on{border-color:#f87171;background:rgba(248,113,113,.14)}
+.app.on{border-color:#22d3ee;background:rgba(34,211,238,.14)}
 .app .mk{font-size:18px;width:20px;text-align:center}
 .allbtn{
   width:100%;padding:10px;margin-top:10px;background:var(--card2);
@@ -80,10 +80,10 @@ button:disabled{opacity:.45}
 .quick{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
 .quick button{
   padding:9px 13px;font-size:13px;font-weight:700;
-  color:#fca5a5;                      /* 背景が黒なので、明るい赤系にする */
-  background:#2a1a1a;border:1px solid #5a3030;border-radius:20px;cursor:pointer;
+  color:#7dd3fc;                      /* 背景が黒なので、明るい水色にする */
+  background:#12262e;border:1px solid #2b5566;border-radius:20px;cursor:pointer;
 }
-.quick button:active{background:#3d2222;color:#fff}
+.quick button:active{background:#1b3a47;color:#fff}
 /* お知らせバナーの編集欄 */
 .news-item{
   display:flex;align-items:center;gap:10px;padding:10px;margin-bottom:8px;
@@ -103,7 +103,7 @@ button:disabled{opacity:.45}
 .clear{background:#475569}
 /* カードの中の見出し。何をする欄なのか一目で分かるようにする */
 .section-head{
-  font-size:16px;font-weight:800;color:#fca5a5;
+  font-size:16px;font-weight:800;color:#22d3ee;
   padding-bottom:10px;margin-bottom:14px;
   border-bottom:1px solid var(--line);
 }
