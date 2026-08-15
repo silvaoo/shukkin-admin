@@ -240,6 +240,7 @@ const APPS = [
 ];
 // 初期は何も選ばない。誤って全員に送ってしまうのを防ぐため、
 // 送り先は毎回その場で選んでもらう。
+let picked = new Set();
 
 function getToken(){
   try{ return localStorage.getItem(TOKEN_KEY) || ''; }catch(e){ return ''; }
