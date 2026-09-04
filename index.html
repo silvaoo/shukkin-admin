@@ -365,24 +365,63 @@ function renderNews(){
   }).join('');
 }
 
+/* いまGitHubにある news.json の版(sha)を取り直す。
+   ページを開いたときの版のまま書き込むと、その後にファイルが変わっていた場合
+   409（衝突）で拒まれるため。 */
+async function fetchNewsSha(token){
+  const r = await fetch('https://api.github.com/repos/' + GH_OWNER + '/' + NEWS_REPO
+    + '/contents/' + NEWS_PATH + '?ref=main&t=' + Date.now(),
+    { headers:{ 'Authorization':'Bearer ' + token,
+                'Accept':'application/vnd.github+json',
+                'Cache-Control':'no-cache' } });
+  if(r.status === 404) return null;      // ファイルがまだ無い場合
+  if(!r.ok) throw new Error(r.status);
+  const j = await r.json();
+  return j.sha;
+}
+
 /* news.json を書き戻す */
 async function saveNews(msg){
   const token = getToken();
   if(!token) return false;
   const txt = JSON.stringify(NEWS_DATA, null, 2);
   const b64 = btoa(unescape(encodeURIComponent(txt)));
-  try{
-    const r = await fetch('https://api.github.com/repos/' + GH_OWNER + '/' + NEWS_REPO
+
+  async function put(sha){
+    const body = { message: msg, content: b64, branch: 'main' };
+    if(sha) body.sha = sha;              // 新規作成のときは付けない
+    return fetch('https://api.github.com/repos/' + GH_OWNER + '/' + NEWS_REPO
       + '/contents/' + NEWS_PATH,
       { method:'PUT',
         headers:{ 'Authorization':'Bearer ' + token, 'Accept':'application/vnd.github+json',
                   'Content-Type':'application/json' },
-        body: JSON.stringify({ message: msg, content: b64, sha: NEWS_SHA, branch: 'main' }) });
-    if(!r.ok){ newsSay('保存できませんでした（' + r.status + '）'); return false; }
+        body: JSON.stringify(body) });
+  }
+
+  try{
+    newsSay('保存しています…');
+    // 書き込む直前に、必ず最新の版を取り直す
+    let sha;
+    try{ sha = await fetchNewsSha(token); }catch(e){ sha = NEWS_SHA; }
+
+    let r = await put(sha);
+
+    // それでも衝突したら、もう一度だけ取り直して再挑戦する
+    if(r.status === 409 || r.status === 422){
+      try{ sha = await fetchNewsSha(token); }catch(e){}
+      r = await put(sha);
+    }
+
+    if(!r.ok){
+      newsSay('保存できませんでした（' + r.status + '）。'
+            + 'もう一度お試しください。続くようなら画面を開き直してください。');
+      return false;
+    }
     const j = await r.json();
     NEWS_SHA = j.content.sha;
+    newsSay('');
     return true;
-  }catch(e){ newsSay('保存できませんでした'); return false; }
+  }catch(e){ newsSay('保存できませんでした（通信）'); return false; }
 }
 
 async function addNews(){
